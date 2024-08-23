@@ -6,7 +6,7 @@ require("dotenv").config();
 
 // middleware
 const corsOptions = {
-    origin: "https://my-app-frontend-2vea.onrender.com" 
+    origin: "https://my-app-frontend-2vea.onrender.com/" 
 }
 app.use(express.json());
 app.use(cors(corsOptions));
