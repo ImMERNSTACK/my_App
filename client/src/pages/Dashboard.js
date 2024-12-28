@@ -47,6 +47,7 @@ const Dashboard = () => {
   return <>
         <div className='' onClick={() => navigate('/cart_items',{state:cart})} style={{ marginTop: '100px', marginRight:'20px',display:'flex',justifyContent:'flex-end'}}>
            {cartQuantity>0 &&<CartQuantity quantity={cartQuantity}/>}
+           <button className='btn btn-primary mt-5' onClick={()=>navigate("/add")}>Add Product</button>
        </div>
     <div className="section1 d-flex justify-content-center flex-wrap " style={{ marginTop: '0px' }}>
       {products?.map((item, index) => (
