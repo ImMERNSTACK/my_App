@@ -131,3 +131,8 @@ form .btnload{
     color:#718096 ;
     border-bottom: 2px solid #8694a8;
 }
+
+.card{
+    width:25%;
+    margin:20px;
+  }  

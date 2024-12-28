@@ -21,11 +21,14 @@ const Otp = () => {
       }
 
       const response = await userVerify(data); 
+       
       if(response.status === 200){
+         
          localStorage.setItem("userdbtoken",response.data.userToken);
+         localStorage.setItem("user_id",response.data.user._id)
          toast.success(response.data.message);
          setTimeout(()=>{
-            navigate("/dashboard");
+          navigate('/dashboard');
          },5000);
       }else{
         toast.error(response.response.data.error);
@@ -38,7 +41,6 @@ const Otp = () => {
       <div className="form_data">
          <div className='form_heading'> 
             <h1>Please Enter Your OTP</h1>
-            
          </div>
          <form>
             <div className="form_input">

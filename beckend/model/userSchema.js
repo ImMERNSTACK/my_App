@@ -24,6 +24,7 @@ const userSchema=new mongoose.Schema({
         required:true,
         minlength:6
     },
+    type:String,
     tokens:[
         {
             token:{
@@ -31,22 +32,30 @@ const userSchema=new mongoose.Schema({
                 required:true,
             }
         }
-    ]
-
-    
-})
+    ],
+    cart:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Product'
+        }
+    ],
+    roles:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Roles",
+    }]
+});
 
 userSchema.pre("save",async function(next) {
     if(this.isModified('password')){
-        this.password= await bcrypt.hash(this.password,12);
+        this.password = await bcrypt.hash(this.password,12);
     }
     next();
-})
+});
 
-userSchema.methods.generateAuthToken =async function(){
+userSchema.methods.generateAuthToken = async function(){
      try {
         let newtoken = jwt.sign({_id:this._id},SECRET_KEY,{
-            expiresIn:"1d"
+            expiresIn:"1d",
         })
 
         this.tokens=this.tokens.concat({token:newtoken});

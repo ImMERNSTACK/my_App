@@ -1,6 +1,7 @@
 const users=require("../model/userSchema");
 const userOtp=require("../model/userOtp");
 const nodemailer=require("nodemailer");
+const rolesModel=require("../model/roles")
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -13,17 +14,20 @@ const transporter = nodemailer.createTransport({
 
 exports.userRegister=async(req,res)=>{
     const {fname,email,password}=req.body;
+    const type = req.body.type || "USER";
     if(!fname || !email || !password){
-        res.status(400).json({error:"Please Enter All input data"})
+        res.status(400).json({error:"Please Enter All input data"});
     }
-
+    const roledata = await rolesModel.findOne({role:type});
+    console.log(roledata);
+    const roles = [roledata._id]
     try{
       const preuser = await users.findOne({email:email});
       if(preuser){
         res.status(400).json({error:"Usr already exit in database"});
       }else{
         const userRegister = new users({
-            fname,email,password
+            fname,email,password,type,roles,
         })
 
         const storeData = await userRegister.save();
@@ -90,12 +94,13 @@ exports.userLogin=async(req,res)=>{
       res.status(400).json({error:"Please Enter Your Otp and Email"})
     }
     try {
-      const otpverification= await userOtp.findOne({email:email});
+      const otpverification = await userOtp.findOne({email:email});
+      
       if(otpverification.otp === otp){
-         const preuser = await users.findOne({email:email});
+         const preuser = await users.findOne({email:email}).populate("roles");
          const token = await preuser.generateAuthToken();
          console.log('token', token)
-         res.status(200).json({message:"User Login successfully",userToken:token});
+         res.status(200).json({message:"User Login successfully",userToken:token,user:preuser});
       }else{
         res.status(400).json({error:"Invalid Otp"});
       }

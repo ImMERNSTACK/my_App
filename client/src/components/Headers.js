@@ -5,9 +5,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import { NavLink } from 'react-router-dom';
 
 const Headers = () => {
-
   return (<>
-      <Navbar bg="dark" data-bs-theme="dark">
+      <Navbar bg="dark" data-bs-theme="dark" className="position-fixed top-0 start-0 w-100 mb-5 p-3 " style={{zIndex:1000}}>
         <Container>
         <NavLink to="/" className="mt-3 mx-2 text-light text-decoration-none">AShoW</NavLink>
           <Nav className="">

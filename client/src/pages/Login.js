@@ -14,13 +14,14 @@ const Login = () => {
       if(email === ""){
          toast.error("Enter your Email");
       }else if(!email.includes("@")){
-        toast.error("Eneter Valid Email")
+        toast.error("Enter Valid Email")
       }else{
         setSpinner(true);
         const data={
           email:email,
         }
         const response = await sendOtpFunction(data);
+        console.log(response);
         if(response.status===200){
           setSpinner(false);
           navigate('/user/otp',{state:email})
@@ -29,10 +30,10 @@ const Login = () => {
         }
       }
   }
-  console.log(email);
+  
   return (
     <>
-    <section>
+    <section className='mt-5'>
       <div className="form_data">
          <div className='form_heading'> 
             <h1>Welcome Back Login</h1>
